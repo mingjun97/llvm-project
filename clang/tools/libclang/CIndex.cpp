@@ -4465,7 +4465,7 @@ static CXString getDeclSpelling(const Decl *D) {
 }
 
 
-//FIXME: Customized function
+//Note: Customized function
 int clang_getBinaryOperatorOps(CXCursor C) {
   if (C.kind == CXCursor_BinaryOperator) {
     const Expr *E = getCursorExpr(C);
@@ -4474,6 +4474,12 @@ int clang_getBinaryOperatorOps(CXCursor C) {
   }else{
     return -1;
   }
+}
+
+CXType clang_getTypeOfArgument(CXCursor C){
+  const Expr *E = getCursorExpr(C);
+  const UnaryExprOrTypeTraitExpr * U = dyn_cast<UnaryExprOrTypeTraitExpr>(E);
+  return cxtype::MakeCXType(U->getTypeOfArgument(), cxcursor::getCursorTU(C));
 }
 
 CXString clang_getCursorSpelling(CXCursor C) {
